@@ -10,10 +10,15 @@ async function deploy(env, chains, wallet, example) {
     const promises = [];
     for(const chain of chains) {
         const rpc = chain.rpc;
+        console.log(rpc);
         const provider = getDefaultProvider(rpc);
         promises.push(example.deploy(chain, wallet.connect(provider)));
+        //console.log(chain)
+        //await example.deploy(chain, wallet.connect(provider))
+        //console.log("cool");
     }
     await Promise.all(promises);
+    console.log("big cool")
     if(example.postDeploy) {
         for(const chain of chains) {
             const rpc = chain.rpc;
@@ -32,6 +37,7 @@ module.exports = {
 
 if (require.main === module) {
     const example = require(`../${process.argv[2]}/index.js`);
+    console.log(process.argv);
 
     const env = process.argv[3];
     if(env == null || (env != 'testnet' && env != 'local')) throw new Error('Need to specify tesntet or local as an argument to this script.');
